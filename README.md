@@ -1,107 +1,92 @@
-<!-- ========================================
-   NeuroPace AI - Complete Project README
-   Comprehensive Documentation & Deployment Guide
-   ======================================== -->
+# NeuroPace AI - Concussion Recovery Companion
 
-# 🧠 NeuroPace AI - Concussion Recovery Companion
+> Real-Time Neuro-Somatic Bio-Pacing & Autonomic Regulation Dashboard
+---
 
 ## Table of Contents
-1. [Project Overview](#project-overview)
-2. [Main Problem Statement](#main-problem-statement)
-3. [Technical Challenges & Solutions](#technical-challenges--solutions)
-4. [Architecture Overview](#architecture-overview)
-5. [Key Features](#key-features)
-6. [Installation & Deployment](#installation--deployment)
-7. [What We Learned](#what-we-learned)
-8. [Final Outcomes & Results](#final-outcomes--results)
-9. [File Structure](#file-structure)
-10. [Usage Guide](#usage-guide)
+1. [Project Overview]
+2. [Main Problem]
+3. [Tech Slack]
+4. [Results]
+5. [How to Run]
+6. [How To Use]
 
 ---
+
+<img width="879" height="636" alt="11" src="https://github.com/user-attachments/assets/36fa54fd-3986-4627-a944-ab25d11a53b9" />
 
 ## Project Overview
 
 **NeuroPace AI** is an intelligent, browser-based web application designed specifically for concussion recovery. It combines:
 
-- **AI-Powered Cognitive Pacing Tracker**: Uses TensorFlow.js neural networks to predict when patients need cognitive rest
-- **Oculomotor Therapy System**: Interactive HTML5 Canvas exercises for eye-tracking rehabilitation
+- **AI-Powered Cognitive Pacing Tracker**
+- **Oculomotor Therapy System**: Interactive HTML Canvas exercises for eye-tracking rehabilitation
 - **Data Visualization**: Real-time symptom tracking with Chart.js graphs
 - **Accessibility-First Design**: Dark-mode, low-blue-light UI optimized for sensitive post-concussion eyes
+- Analyzes daily sleep, screen time, hydration, and symptom metrics via Google Gemini API
+- Interactive Bio-Pacing Suite: Delivers step-by-step vagus nerve resets, oculomotor shifts, and diaphragmatic breathing exercises with live visual cues.
+-  Browser LocalStorage (100% client-side, privacy-first)
 
-### Hackathon Categories Targeted
-* **Best Tech for Concussion Recovery**  
-* **Best Use of AI/ML**  
-* **Best Design** (Accessibility + UX)
-
-### Tech Stack
-- **Frontend**: Pure HTML5, CSS3 (Flexbox/Grid), Vanilla JavaScript
-- **AI/ML**: TensorFlow.js 4.10.0 (via CDN)
-- **Data Viz**: Chart.js 3.9.1 (via CDN)
-- **Icons**: Font Awesome 6.4.0 (via CDN)
-- **Storage**: Browser LocalStorage (100% client-side, privacy-first)
-- **No Build Tools**: Zero dependencies, works anywhere
-
----
-
-## Main Problem Statement
-
-### The Challenge
-Concussion recovery is complex and highly individualized. Patients face several critical issues:
-
-#### **Problem 1: Cognitive Overload Without Warning**
+## The Problem
+**Individuals with neuro-somatic conditions, autonomic dysfunction, or cognitive fatigue frequently experience sudden physiological crashes due to improper pacing. Providing clinically guided interventions when acute cognitive overwhelm or autonomic strain occurs.**
 - Patients often push too hard during recovery, worsening symptoms
-- No real-time guidance on when to take "brain breaks"
-- Traditional recovery plans are one-size-fits-all
-- **Impact**: Delayed recovery, increased symptom severity, re-injury risk
-
-#### **Problem 2: Oculomotor Dysfunction**
-- 40-60% of concussion patients experience eye-tracking difficulties
-- Vision problems affect balance, coordination, and cognitive processing
-- Limited access to specialized eye therapy exercises
-- Traditional therapy requires expensive clinic visits
-- **Impact**: Prolonged recovery, reduced independence, higher costs
-
-#### **Problem 3: Lack of Engagement & Tracking**
 - Patients struggle to track symptom patterns themselves
-- No objective data for healthcare providers to assess recovery progress
-- Recovery is invisible—hard to stay motivated
-- **Impact**: Poor compliance, inconsistent recovery trajectory
+- Privacy concerns: Medical data should stay on user's device
 
-#### **Problem 4: Accessibility Concerns**
-- Standard apps with bright lights, intense colors worsen post-concussion symptoms
-- Screen time limitations mean apps must be efficient and soothing
-- Most health apps ignore low-blue-light design principles
-- **Impact**: Apps are unusable for target population during recovery
+## Tech Stack
+
+* HTML, CSS3 (Custom Dark/Light Themes), JavaScript
+* Google Gemini API (gemini-3.6-flash),
+* Chart.js
 
 ---
 
-## Technical Challenges & Solutions
 
-### Challenge 1: Building ML Model Without Server Infrastructure
+<img width="1188" height="634" alt="mm" src="https://github.com/user-attachments/assets/a1b3ec3c-770f-4cd2-bbc8-b351ed5ffc13" />
 
-**The Problem:**
-- Traditional ML requires backend servers, databases, model training infrastructure
-- Hackathon context: No time/resources for server setup
-- Privacy concerns: Medical data should stay on user's device
-- Scalability: Serving thousands of users requires massive backend
+## Results
+NeuroPace AI bridges the gap between passive tracking and active recovery. It combines health metrics engine with an interactive somatic pacing suite.Results: Users reduce sensory fatigue, lower autonomic hyperarousal, and maintain sustainable daily energy reserves through structured clinical feedback.
 
-**Our Solution:**
-**TensorFlow.js (Browser-Based ML)**
+---
+
+## How to Run on Your System
+
+### 1. Prerequisites
+
+* A Google Gemini API Key. Get one from [Google AI Studio](https://aistudio.google.com/).
+
+### 2. Clone the Repository
+
+```bash
+git clone https://github.com/MuhammadHuzaifaG/Neuropace-AI.git
+cd NeuroPace-AI
+
+```
+
+### 3. Insert Your Gemini API Key
+
+Open `app.js` in your code editor, locate the configuration variable near the top, and add your API key:
+
 ```javascript
-// Neural Network runs entirely in browser
-const model = tf.sequential({
-    layers: [
-        tf.layers.dense({
-            inputShape: [5],  // 5 input features
-            units: 16,
-            activation: 'relu'
-        }),
-        tf.layers.dropout({ rate: 0.2 }),
-        tf.layers.dense({ units: 8, activation: 'relu' }),
-        tf.layers.dropout({ rate: 0.2 }),
-        tf.layers.dense({
-            units: 1,
-            activation: 'sigmoid'  // Output: 0-1 probability
-        })
-    ]
-});
+// app.js
+const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE";
+
+```
+
+### 4. Run the Application
+
+Launch `index.html` using a local web server (such as VS Code's **Live Server** extension) or via python:
+
+```bash
+python -m http.server 8000
+```
+
+Navigate to `http://localhost:8000` in your web browser.
+
+---
+
+## 📖 How to Use
+
+1. **Log Health Metrics:** Enter your daily symptom levels, sleep quality, hydration, and screen time in the tracker section.
+2. **Generate AI Analysis:** Click **"Analyze & Get Brain Prediction"** to receive instant clinical guidance.
+3. **Launch Bio-Pacing:** Select a neuro-somatic protocol (e.g., *Vagus Nerve Reset* or *Oculomotor Shift*) to follow live visual cues and restore balance.
