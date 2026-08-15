@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NeuroPace AI - An intelligent concussion recovery companion using AI cognitive pacing and oculomotor therapy.">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="color-scheme" content="dark">
+    <meta name="keywords" content="concussion recovery, cognitive pacing, oculomotor therapy, AI, healthcare">
+    
+    <!-- Accessibility Meta Tags -->
+    <meta name="accessibility-supported-syntaxes" content="WCAG 2.1 AA">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="NeuroPace AI - Concussion Recovery Companion">
+    <meta name="twitter:description" content="Smart AI-powered cognitive pacing and oculomotor therapy for concussion recovery.">
+    
+        <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css">     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    
+    <!-- External Libraries (Free CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+    <!-- TensorFlow.js (via CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0"></script>
+    
+    
+    <title>NeuroPace AI - Concussion Recovery Companion</title>
+</head>
+<body>
+
+<!-- Header Navigation -->
+<header class="header" role="banner">
+    <div class="header-container">
+        <div class="logo">
+            <i class="fas fa-brain"></i>
+            <h1>NeuroPace AI</h1>
+        </div>
+        <nav class="nav-menu" role="navigation" aria-label="Main navigation">
+            <button class="nav-btn active" data-section="dashboard" aria-label="Go to Dashboard">
+                <i class="fas fa-home"></i>
+                <span class="nav-text">Dashboard</span>
+            </button>
+            <button class="nav-btn" data-section="tracker" aria-label="Go to Cognitive Pacing Tracker">
+                <i class="fas fa-chart-line"></i>
+                <span class="nav-text">Tracker</span>
+            </button>
+            <button class="nav-btn" data-section="therapy" aria-label="Start Oculomotor Therapy">
+                <i class="fas fa-eye"></i>
+                <span class="nav-text">Therapy</span>
+            </button>
+            <button class="nav-btn" data-section="about" aria-label="Go to About">
+                <i class="fas fa-info-circle"></i>
+                <span class="nav-text">About</span>
+            </button>
+        </nav>
+        <div class="theme-toggle">
+            <button id="theme-btn" class="btn btn-secondary btn-small" title="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </div>
+</header>
+    <!-- Main Content -->
+    <main id="main-content" class="main-container" role="main">
+        
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active" role="region" aria-label="Dashboard">
+            <div class="section-content">
+                <h2>Welcome to NeuroPace AI</h2>
+                <p class="intro-text">Your intelligent companion for concussion recovery. Track your cognitive symptoms and practice therapeutic eye exercises.</p>
+                
+                <div class="dashboard-grid">
+                    <article class="dashboard-card" role="article">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Cognitive Pacing Tracker</h3>
+                        <p>AI-powered analysis of your symptom severity, screen time, and sleep quality to predict when you need a brain break.</p>
+                         <button class="nav-btn" data-section="tracker" aria-label="Go to Cognitive Pacing Tracker">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Tracker</span>
+                    </article>
+
+                    <article class="dashboard-card" role="article">
+                        <div class="card-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>Oculomotor Therapy</h3>
+                        <p>Smooth, accessible eye-tracking exercises to help retrain your visual focus and coordination during recovery.</p>
+                        <button class="nav-btn" data-section="therapy" aria-label="Start Oculomotor Therapy">
+                        <i class="fas fa-eye"></i>
+                        <span>Therapy</span>
+                    </article>
+
+                    <article class="dashboard-card" role="article">
+                        <div class="card-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>How to Use</h3>
+                        <p>Evidence-based recommendations for managing concussion symptoms and optimizing your recovery journey.</p>
+                        <button class="nav-btn" data-section="about" aria-label="help">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Help</span>
+                    </article>
+
+                </div>
+
+                <!-- Historical Data Chart -->
+                <div class="chart-container">
+                    <h3>Your Symptom Trends</h3>
+                    <canvas id="symptom-chart"></canvas>
+                </div>
+
+                <!-- Entry History -->
+                <div class="history-container">
+                    <h3>Recent Entries</h3>
+                    <div id="history-list" class="history-list" role="list" aria-label="Recent tracking entries"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cognitive Pacing Tracker Section -->
+        <section id="tracker" class="section" role="region" aria-label="Cognitive Pacing Tracker">
+            <div class="section-content">
+                <h2>Cognitive Pacing Tracker</h2>
+                <p class="intro-text">Track your symptoms and let AI predict when you need a brain break.</p>
+
+                <!-- Input Form -->
+                <div class="tracker-form-container">
+                    <form id="tracker-form" class="tracker-form" role="form" aria-label="Symptom tracking form">
+                        
+                        <div class="form-group">
+                            <label for="symptom-severity" class="form-label">
+                                <i class="fas fa-pain"></i> Symptom Severity (1-10)
+                            </label>
+                            <div class="slider-container">
+                                <input type="range" id="symptom-severity" name="symptomSeverity" min="1" max="10" value="5" class="slider" aria-label="Symptom severity slider from 1 to 10">
+                                <span class="slider-value" id="severity-display">5</span>
+                            </div>
+                            <small>1 = No symptoms, 10 = Severe symptoms</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="screen-time" class="form-label">
+                                <i class="fas fa-desktop"></i> Screen Time Today (hours)
+                            </label>
+                            <input type="number" id="screen-time" name="screenTime" min="0" max="24" step="0.5" value="0" class="form-input" aria-label="Screen time in hours" placeholder="e.g., 2.5">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sleep-quality" class="form-label">
+                                <i class="fas fa-bed"></i> Last Night's Sleep Quality (1-10)
+                            </label>
+                            <div class="slider-container">
+                                <input type="range" id="sleep-quality" name="sleepQuality" min="1" max="10" value="5" class="slider" aria-label="Sleep quality slider from 1 to 10">
+                                <span class="slider-value" id="sleep-display">5</span>
+                            </div>
+                            <small>1 = Poor sleep, 10 = Excellent sleep</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hydration-level" class="form-label">
+                                <i class="fas fa-droplet"></i> Hydration Level (1-10)
+                            </label>
+                            <div class="slider-container">
+                                <input type="range" id="hydration-level" name="hydrationLevel" min="1" max="10" value="5" class="slider" aria-label="Hydration level slider from 1 to 10">
+                                <span class="slider-value" id="hydration-display">5</span>
+                            </div>
+                            <small>1 = Very dehydrated, 10 = Well hydrated</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="activity-level" class="form-label">
+                                <i class="fas fa-running"></i> Physical Activity Today (minutes)
+                            </label>
+                            <input type="number" id="activity-level" name="activityLevel" min="0" max="1440" step="5" value="0" class="form-input" aria-label="Physical activity in minutes" placeholder="e.g., 30">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-large" aria-label="Submit symptom data for analysis">
+                            <i class="fas fa-brain"></i> Analyze & Get Brain Break Prediction
+                        </button>
+                    </form>
+                </div>
+
+                <!-- AI Prediction Result -->
+                <div id="prediction-result" class="prediction-result hidden" role="region" aria-label="AI prediction result" aria-live="polite">
+                    <div class="result-card">
+                        <h3>AI Prediction Result</h3>
+                        <div class="result-content">
+                            <div class="result-score">
+                                <span class="score-label">Brain Break Need Score</span>
+                                <span class="score-value" id="prediction-score">0%</span>
+                            </div>
+                            <div class="result-message" id="prediction-message"></div>
+                            <div class="result-recommendation" id="prediction-recommendation"></div>
+                        </div>
+                        <button class="btn btn-secondary" id="save-result-btn" aria-label="Save this tracking result">
+                            <i class="fas fa-save"></i> Save Entry
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="therapy" class="section" role="region" aria-label="Oculomotor Therapy">
+            <div class="section-content">
+         <h2>Optimal Daily Targets for Health & Peace of Mind</h2>
+         <p class="intro-text"> To maintain long-term physical health, mental calm, and cognitive balance, aim to keep your daily health metrics within these target ranges: </p>
+        </div>
+            <article class="about-article">
+       <section class="instruction-section">
+        <ul role="list" aria-label="Target wellness values guide">
+            <h4>Optimal Daily Targets</h4>
+            <li>
+                <strong>Symptom Severity (Aim for 1–3):</strong> Keep discomfort at a minimum. If your severity rating climbs above 5, lower your screen exposure and take a visual break immediately.
+            </li>
+            <li>
+                <strong>Sleep Quality (Aim for 8–10):</strong> Restorative sleep is the baseline for neural recovery. Aim for 7 to 9 hours of deep, uninterrupted sleep each night to keep your mental stamina high.
+            </li>
+            <li>
+                <strong>Physical Activity (Aim for 30–60 mins):</strong> Light-to-moderate movement (like walking, gentle stretching, or yoga) promotes blood flow and releases tension without triggering cognitive fatigue.
+            </li>
+            <li>
+                <strong>Screen Time (Limit to 2–4 Hours non-work):</strong> Prolonged visual strain elevates anxiety and eye fatigue. Take regular 20-second breaks by looking at distant objects across the room.
+            </li>
+            <li>
+                <strong>Hydration & Mindfulness (Daily Baseline):</strong> Drink plenty of water and take 2 to 5 minutes daily for targeted visual tracking or breathing exercises to restore your nervous system.
+            </li>
+        </ul>
+    </section>
+
+        <aside class="clinical-note" style="margin-top: 1.5rem; padding: 1rem; background-color: rgba(0,0,0,0.03); border-left: 4px solid #00b894; border-radius: 4px;">
+        💡 <strong>Remember:</strong> Consistency over intensity. Small, steady daily habits lead to sustained energy, clearer focus, and lasting peace of mind.
+        </aside>
+    </article>
+        <article class="about-article">
+        <section class="instruction-section">
+            <h4>Duration & Frequency</h4>
+            <p>
+                <strong>2 to 5 minutes</strong> per session is all you need. If you're new to visual exercises, start with 2 minutes once a day. As your eyes adjust, you can gradually work up to a 5-minute session or split it into two short daily sessions.
+            </p>
+        </section>
+        </article>
+        <article class="about-article">
+        <section class="instruction-section safety-reminder">
+            <h4>Listen to Your Body</h4>
+            <p>
+                Therapy should feel restorative, not punishing. If you feel dizzy, lightheaded, or experience mild strain:
+            </p>
+            <ul>
+                <li>Click <strong>Pause</strong> at any point to rest your eyes.</li>
+                <li>Look at a distant object across the room for 20 seconds.</li>
+                <li>Resume only when you feel completely comfortable.</li>
+            </ul>
+        </section>
+
+        <aside class="clinical-note" style="margin-top: 1.5rem; padding: 1rem; background-color: rgba(0,0,0,0.03); border-left: 4px solid #04d1d8; border-radius: 4px;">
+             <strong>Why This Helps:</strong> Smooth visual tracking stimulates the connection between your optical nerves and brain, helping to reduce physical tension, improve eye stamina, and support a calmer nervous system over time.
+        </aside>
+    </article>
+    
+    </div>
+
+                <!-- Therapy Controls -->
+                <div class="therapy-controls">
+                    <button id="therapy-start-btn" class="btn btn-primary btn-large" aria-label="Start oculomotor therapy exercise">
+                        <i class="fas fa-play"></i> Begin Exercise
+                    </button>
+                    <button id="therapy-stop-btn" class="btn btn-secondary btn-large hidden" aria-label="Stop oculomotor therapy exercise">
+                        <i class="fas fa-stop"></i> Stop Exercise
+                    </button>
+                </div>
+                
+                <!-- Quick Stats Section -->
+                <div class="stats-section">
+                    <h3>Today's Summary</h3>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <span class="stat-label">Sessions Completed</span>
+                            <span class="stat-value" id="sessions-today">0</span>
+                        </div>
+                        <!-- Session Timer & Stats -->
+                        <div class="stat-box">
+                            <span class="stat-label">Status</span>
+                            <span class="stat-value" id="therapy-status">Ready</span>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <!-- Session Complete Message -->
+                <div id="therapy-complete" class="session-complete hidden" role="region" aria-label="Therapy session complete">
+                    <div class="complete-card">
+                        <h3><i class="fas fa-trophy"></i> Great Job!</h3>
+                        <p id="complete-message">Your eye-tracking exercise is complete.</p>
+                        <button id="therapy-save-btn" class="btn btn-primary" aria-label="Save therapy session">
+                            <i class="fas fa-save"></i> Save Session
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        
+            <section id="about" class="section" role="region" aria-label="About">
+            <div class="section-content">
+               
+                <div class="section-content">
+                    <h2>How to Use This Tool</h2>
+                <p class="intro-text"></p>
+
+                <!-- Therapy Instructions -->
+    <div class="therapy-instructions">
+    <article class="about-article">
+        <h3>1. Daily Cognitive Assessment & Health Tracker</h3>
+        <p class="instruction-intro">
+            Track your daily metrics and let AI predict when you need a brain break. Spending just <strong>1 to 2 minutes</strong> logging your daily health habits helps customize your mental, physical, and visual recovery plan. Here is how to get the best results:
+        </p>
+
+        <section class="instruction-section">
+            <h4>Step-by-Step Guide</h4>
+            <ul role="list" aria-label="Cognitive tracker step-by-step instructions">
+                <li>
+                    <strong>Input Your Metrics:</strong> Enter accurate values for your <strong>Symptom Severity (1-10)</strong>, <strong>Screen Time Today (hours)</strong>, <strong>Sleep Quality (1-10)</strong>, <strong>Hydration Level (1-10)</strong>, and <strong>Physical Activity Today (minutes)</strong>.
+                </li>
+                <li>
+                    <strong>Generate AI Assessment:</strong> Click the <strong>"Analyze & Get Brain Prediction"</strong> button to send your health metrics to the NeuroPace engine for real-time clinical analysis.
+                </li>
+                <li>
+                    <strong>Review Your Recommendations:</strong> Read your personalized <strong>Patient Guidance</strong> for instant pacing, and recovery tips, alongside a structured.
+                </li>
+                <li>
+                    <strong>Save Your Progress:</strong> Click the <strong>"Save Entry"</strong> button to retain your historical trends.
+                </li>
+            </ul><br>
+            <button class="nav-btn" data-section="tracker" aria-label="Go to Cognitive Pacing Tracker">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Tracker</span>
+                </button>
+        </section>
+    </article>
+    </div>
+        <div class="therapy-instructions">
+        
+        <article class="about-article">
+            <h3>2.Oculomotor Therapy - Eye Tracking Exercise</h3>
+        <p class="instruction-intro">
+            Welcome to your visual therapy space. Taking just <strong>2 to 5 minutes</strong> out of your day can make a significant difference in your focus, eye tracking, and mental calm. Here is how to get the best results:
+        </p>
+
+        <section class="instruction-section">
+            <h4>Step-by-Step Guide</h4>
+            <ul role="list" aria-label="Therapy step-by-step instructions">
+                <li>
+                    <strong>Find Your Center:</strong> Sit in a comfortable, upright chair in a quiet space with soft lighting. Position your screen at roughly an <strong>arm's length</strong> away.
+                </li>
+                <li>
+                    <strong>Keep Your Head Still:</strong> As the target moves, follow it <em>strictly with your eyes</em>. Try not to tilt or turn your head—let your eye muscles do all the work.
+                </li>
+                <li>
+                    <strong>Start When Ready:</strong> Press the <strong>"Begin Exercise"</strong> button below. Focus smoothly on the moving object without forcing or straining your vision.
+                </li>
+                <li>
+                    <strong>Breathe and Blink:</strong> It is easy to hold your breath or freeze your focus! Remind yourself to take deep, relaxed breaths and blink naturally to keep your eyes hydrated.
+                </li>
+            </ul><br>
+            <button class="nav-btn" data-section="therapy" aria-label="Start Oculomotor Therapy">
+                    <i class="fas fa-eye"></i>
+                    <span>Therapy</span>
+                </button>
+        </section>
+        </article>
+        <div class="therapy-instructions">
+    <article class="about-article">
+        <h3>3. Interactive Neuro-Somatic Bio-Pacing Engine</h3>
+        <p class="instruction-intro">
+            Regulate autonomic strain, visual fatigue, and mental overwhelm in real time. Spending just <strong>1 to 2 minutes</strong> executing targeted neuro-somatic pacing routines helps realign your nervous system and prevent cognitive crashes. Here is how to get the best results:
+        </p>
+
+        <section class="instruction-section">
+            <h4>Step-by-Step Guide</h4>
+            <ul role="list" aria-label="Bio-pacing engine step-by-step instructions">
+                <li>
+                    <strong>Identify Your Acute Symptom:</strong> Select a specialized exercise based on your immediate need—whether it is <strong>Vagus Nerve Reset</strong> for stress, <strong>Oculomotor Shift</strong> for eye strain, <strong>Orthostatic Pacing</strong> for physical fatigue, <strong>Bilateral Tapping</strong> for mental overwhelm, <strong>Rib Expansion</strong> for low oxygenation, or <strong>4-7-8 Grounding</strong> for anxiety.
+                </li>
+                <li>
+                    <strong>Launch Live Pacing:</strong> Click your chosen exercise button to initiate the interactive real-time visual pacing ring and automated countdown timer.
+                </li>
+                <li>
+                    <strong>Follow Somatic Cues:</strong> Sync your breathing, eye movements, or physical posture with the dynamic visual ring transitions and step-by-step phase indicators.
+                </li>
+                <li>
+                    <strong>Read Clinical Insights:</strong> Review the live <strong>Clinical Guidance</strong> box attached to each protocol to understand the physiological mechanisms supporting your recovery.
+                </li>
+            </ul><br>
+            <button class="nav-btn" data-section="tracker" aria-label="Go to Bio-Pacing Engine">
+                <i class="fas fa-heartbeat"></i>
+                <span>Bio-Pacing</span>
+            </button>
+        </section>
+    </article>
+</div>
+
+         <h2>About NeuroPace AI</h2>
+            <p class="intro-text"></p>  
+                <article class="about-article">
+                    <h3>What is NeuroPace AI?</h3>
+                    <p>NeuroPace AI is an innovative web-based healthcare companion designed specifically for concussion recovery. It combines artificial intelligence, eye-tracking therapy, and symptom monitoring to support your recovery journey with science-backed techniques.</p>
+                </article>
+                <article class="about-article">
+                    <h3>Key Features</h3>
+                    <ul role="list">
+                        <li><strong>Cognitive Pacing Tracker:</strong> AI-powered predictions help you understand when your brain needs rest, preventing overexertion during recovery.</li>
+                        <li><strong>Oculomotor Therapy:</strong> Interactive eye-tracking exercises that help retrain visual focus and coordination, addressing common post-concussion visual symptoms.</li>
+                        <li><strong>Data Visualization:</strong> Track trends in your symptoms over time with beautiful, accessible charts.</li>
+                        <li><strong>Accessible Design:</strong> Low-blue-light dark theme reduces cognitive load and protects sensitive eyes during recovery.</li>
+                    </ul>
+                </article>
+
+                <article class="about-article">
+                    <h3>Disclaimer</h3>
+                    <p>NeuroPace AI is designed as a <strong>supportive tool</strong> and should not replace professional medical advice. Always consult with your healthcare provider, physical therapist, or concussion specialist before starting any new exercises or therapy. If you experience severe symptoms, dizziness, or worsening vision during therapy, stop immediately and seek medical attention.</p>
+                </article>
+
+                <article class="about-article">
+                    <h3>Built With</h3>
+                    <ul role="list">
+                        <li>HTML5 & CSS3</li>
+                        <li>Vanilla JavaScript</li>
+                        <li>TensorFlow.js (for AI/ML)</li>
+                        <li>Chart.js (for data visualization)</li>
+                        <li>Font Awesome (for icons)</li>
+                    </ul>
+                </article>
+                <article class="about-article">
+                    <h3>API Usage (Free Tier)</h3>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <span class="stat-label">Gemini API Calls</span>
+                            <span class="stat-value" id="quota-gemini">Daily Quota :30</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Monthly Cost</span>
+                            <span class="stat-value">$0.00</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="about-article">
+                    <h3>Privacy & Data</h3>
+                    <p>All your data is stored locally in your browser (LocalStorage). NeuroPace AI does not send any personal health information to external servers. Your recovery data remains completely private and under your control.</p>
+                </article>
+                <article class="about-article">
+                    <h3>Before Using</h3>
+                    <p>Make Sure that You have Added Gemini API KEY in app.js file.</p>
+                </article>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <p class="accessibility-statement">This application is designed with WCAG 2.1 Level AA accessibility standards in mind.</p>
+            <p>&copy; 2026 NeuroPace AI. Designed for concussion recovery. Built with ❤️ for Hack for Humanity.</p>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="toast-notification" class="toast" role="alert" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden" role="status" aria-label="Loading">
+        <div class="spinner">
+            <i class="fas fa-spinner"></i>
+        </div>
+    </div>
+  </button>
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>
