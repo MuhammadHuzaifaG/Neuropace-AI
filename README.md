@@ -1,17 +1,6 @@
 # NeuroPace AI - Concussion Recovery Companion
 
 > Real-Time Neuro-Somatic Bio-Pacing & Autonomic Regulation Dashboard
----
-
-## Table of Contents
-1. [Project Overview]
-2. [Main Problem]
-3. [Tech Slack]
-4. [Results]
-5. [How to Run]
-6. [How To Use]
-
----
 
 <img width="879" height="636" alt="11" src="https://github.com/user-attachments/assets/36fa54fd-3986-4627-a944-ab25d11a53b9" />
 
@@ -40,7 +29,6 @@
 * Chart.js
 
 ---
-
 
 <img width="1188" height="634" alt="mm" src="https://github.com/user-attachments/assets/a1b3ec3c-770f-4cd2-bbc8-b351ed5ffc13" />
 
@@ -85,7 +73,7 @@ Navigate to `http://localhost:8000` in your web browser.
 
 ---
 
-## 📖 How to Use
+## How to Use
 
 1. **Log Health Metrics:** Enter your daily symptom levels, sleep quality, hydration, and screen time in the tracker section.
 2. **Generate AI Analysis:** Click **"Analyze & Get Brain Prediction"** to receive instant clinical guidance.
