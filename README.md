@@ -1,4 +1,4 @@
-# NeuroPace AI - Concussion Recovery Companion
+# NeuroPace AI - Concussion Recovery Companion | Hackathon Winner (Devpost)
 
 > Real-Time Neuro-Somatic Bio-Pacing & Autonomic Regulation Dashboard
 
